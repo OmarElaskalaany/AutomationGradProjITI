@@ -1,4 +1,4 @@
-# Automated Testing Project for NopCommerce
+# Automation Testing Project for NopCommerce Website
 
 This project contains automated test scripts for the NopCommerce website. The tests are written in Java using the Selenium framework. The project follows the Page Object Model (POM) design pattern and uses TestNG for test execution and assertions.
 
