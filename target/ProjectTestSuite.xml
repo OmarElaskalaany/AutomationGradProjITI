@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Project Test Suite">
+    <test name="E:\ITI\Automation\TestingNopcommerce\src\test" preserve-order = "true" verbose = "2">
+        <classes>
+            <class name="RegistrationPageTest">
+                <methods>
+                    <include name="ValidRegistration"/>
+                    <include name="InValidRegistration_IncorrectEmail"/>
+                    <include name="InValidRegistration_PasswordDoNotMatch"/>
+                </methods>
+            </class>
+            <class name="LoginPageTest">
+                <methods>
+                    <include name="ValidLogin"/>
+                    <include name="InvalidLogin_UnRegisteredUser"/>
+                </methods>
+            </class>
+            <class name="ChangePasswordTest">
+                <methods>
+                    <include name="ValidChangePassword"/>
+                    <include name="InValidChangePassword_OldPasswordDoNotMatch"/>
+                </methods>
+            </class>
+            <class name="SearchOnProduct"/>
+            <class name="AddToCartTest">
+                <methods>
+                    <include name="AddToCart_Jewelry"/>
+                    <include name="AddToCart_DigitalDownloads"/>
+                    <include name="AddToCart_NikeSBZoom"/>
+                </methods>
+            </class>
+            <class name="CheckOutProcessTest">
+                <methods>
+                    <include name="ValidCheckoutProcess"/>
+                    <include name="InvalidCheckoutProcess_EmptyCreditCard"/>
+                </methods>
+            </class>
+            <class name="AddAddress">
+                <methods>
+                    <include name="ValidAddressInputs"/>
+                    <include name="InvalidAddressInputs_WrongEmail"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

@@ -11,7 +11,7 @@ public class RegistrationPage extends Main {
     public RegistrationPage(WebDriver driver) {
         super(driver);
     }
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     // Locators
     private final By MaleGender = By.id("gender-male");
     private final By FemaleGender = By.id("gender-female");
@@ -27,6 +27,9 @@ public class RegistrationPage extends Main {
     private final By ConfirmPassword = By.id("ConfirmPassword");
     private final By RegisterButton = By.id("register-button");
     private final By ContinueButton = By.xpath("//a[@class=\"button-1 register-continue-button\"]");
+    private final By SuccessfulMessage = By.xpath("//div[@class=\"result\"]");
+    private final By EmailErrorMessage = By.xpath("//span[@id=\"Email-error\"]");
+    private final By ConfirmPasswordDoNotMatch = By.id("ConfirmPassword-error");
 
     // Methods
     public void ClickOnGender(String Value) {
@@ -40,67 +43,65 @@ public class RegistrationPage extends Main {
             throw new IllegalArgumentException("Invalid gender value. Please provide 'M' for Male or 'F' for Female.");
         }
     }
-
     public void EnterFn(String FN) {
         WebElement FNElement = driver.findElement(FirstName);
         SendKeys(FNElement, FN);
     }
-
     public void EnterLn(String LN) {
         WebElement LNElement = driver.findElement(LastName);
         SendKeys(LNElement, LN);
     }
-
     public void EnterDropDownDay(String Number) {
         WebElement dropDownDayList = driver.findElement(DropBoxDay);
         Select options = new Select(dropDownDayList);
         options.selectByValue(Number);
     }
-
     public void EnterDropDownMonth(String Month) {
         WebElement dropDownMonthList = driver.findElement(DropBoxMonth);
         Select options = new Select(dropDownMonthList);
         options.selectByVisibleText(Month);
     }
-
     public void EnterDropDownYear(String Year) {
         WebElement dropDownYearList = driver.findElement(DropBoxYear);
         Select options = new Select(dropDownYearList);
         options.selectByValue(Year);
     }
-
     public void EnterEmail(String Mail) {
         WebElement emailElement = driver.findElement(Email);
         SendKeys(emailElement, Mail);
     }
-
     public void EnterCompany(String Comp) {
         WebElement companyElement = driver.findElement(Company);
         SendKeys(companyElement, Comp);
     }
-
     public void ClickOnNewsletterButton() {
         WebElement newsletterElement = driver.findElement(Newsletter);
         Click(newsletterElement);
     }
-
     public void EnterPassword(String Pass) {
         WebElement passElement = driver.findElement(Password);
         SendKeys(passElement, Pass);
     }
-
     public void EnterConfirmPassword(String Pass) {
         WebElement confirmPasswordElemenet = driver.findElement(ConfirmPassword);
         SendKeys(confirmPasswordElemenet, Pass);
     }
-
     public void ClickOnRegisterButton() {
         WebElement registerButtonElement = driver.findElement(RegisterButton);
         Click(registerButtonElement);
     }
-
-    public void ClickOnContiuneButton() {
+    public HomePage ClickOnContiuneButton() {
         WebElement continueButtonElement = wait.until(ExpectedConditions.elementToBeClickable(ContinueButton));
         Click(continueButtonElement);
+        return new HomePage(driver);
+    }
+    public String GetSuccessfulMessage(){
+        return driver.findElement(SuccessfulMessage).getText();
+    }
+    public String GetEmailErrorMessage(){
+        return driver.findElement(EmailErrorMessage).getText();
+    }
+    public String GetConfirmPasswordDoNotMatch(){
+        return driver.findElement(ConfirmPasswordDoNotMatch).getText();
     }
 }

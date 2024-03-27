@@ -12,7 +12,7 @@ public class ShoppingCart extends Main{
     public ShoppingCart(WebDriver driver) {
         super(driver);
     }
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
     private final By TermsOfService = By.id("termsofservice");
     private final By CheckOut = By.id("checkout");
@@ -30,20 +30,14 @@ public class ShoppingCart extends Main{
     private final By ExpirationMonthPI = By.id("ExpireMonth");
     private final By ExpirationyearPI = By.id("ExpireYear");
     private final By CardCodePI = By.id("CardCode");
-    private final By paymentInformationCountinueButton = By.xpath("//button[@class=\"button-1 payment-info-next-step-button\"]");
-    private final By AssertionText = By.id("billing-address-select");
-    private final By ConfirmButtonCheckOut = By.xpath("//button[@class=\"button-1 confirm-order-next-step-button\"]");
-
+    private final By paymentInformationCountinueButton = By.xpath("//*[@id=\"payment-info-buttons-container\"]/button");
+    private final By ConfirmButtonCheckOut = By.xpath("//*[@id=\"confirm-order-buttons-container\"]/button");
+    private final By ShipToSameAddressCheckBox = By.id("ShipToSameAddress");
+    private final By CreditCardErrorMessage = By.xpath("//div[@class=\"message-error validation-summary-errors\"]");
     public void ClickOnConfirmButtonCheckOut(){
         WebElement ConfirmButtonCheckOutElement = wait.until(ExpectedConditions.elementToBeClickable(ConfirmButtonCheckOut));
         ScrollToElement(ConfirmButtonCheckOutElement);
         Click(ConfirmButtonCheckOutElement);
-    }
-    public Boolean AssertionOnAvailabilityOfAddress(){
-        WebElement AssertionTextElement = wait.until(ExpectedConditions.elementToBeClickable(AssertionText));
-        boolean Check = AssertionTextElement.isDisplayed();
-        Assert.isTrue(Check,"Not Found");
-        return Check;
     }
     public void ClickOnpaymentInformationCountinueButton(){
         WebElement paymentInformationCountinueButtonElement = driver.findElement(paymentInformationCountinueButton);
@@ -113,17 +107,25 @@ public class ShoppingCart extends Main{
         SendKeys(PhoneBAElement, mobile);
     }
     public void ClickOnContinueButtonBA(){
-        WebElement ContinueButtonElement = driver.findElement(ContinueButtonBA);
+        WebElement ContinueButtonElement = wait.until(ExpectedConditions.elementToBeClickable(ContinueButtonBA));
         ScrollToElement(ContinueButtonElement);
         Click(ContinueButtonElement);
     }
     public void ClickOnTermsOfService(){
-        WebElement TermOfServiceElement = driver.findElement(TermsOfService);
+        WebElement TermOfServiceElement = wait.until(ExpectedConditions.elementToBeClickable(TermsOfService));
         ScrollToElement(TermOfServiceElement);
         Click(TermOfServiceElement);
     }
     public void ClickOnCheckOut(){
         WebElement CheckOutElement = driver.findElement(CheckOut);
         Click(CheckOutElement);
+    }
+    public void ClickOnShipToSameAddressCheckBox(){
+        WebElement ShipToSameAddressCheckBoxElement = wait.until(ExpectedConditions.elementToBeClickable(ShipToSameAddressCheckBox));
+        Click(ShipToSameAddressCheckBoxElement);
+    }
+    public String GetCreditCardErrorMessage(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(CreditCardErrorMessage));
+        return driver.findElement(CreditCardErrorMessage).getText();
     }
 }

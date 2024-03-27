@@ -1,59 +1,42 @@
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
+
 public class ChangePasswordTest extends Structure {
     private HomePage hp;
     private LoginPage lp;
-    private RegistrationPage rp;
     private MyAccountPage ap;
 
-    @Test(priority = 1, alwaysRun = true)
-    public void Registration(){
+    @Test(priority = 1)
+    public void ValidChangePassword(){
         hp = new HomePage(driver);
-        rp = hp.ClickOnRegisterButton();
-        rp.ClickOnGender("M");
-        rp.EnterFn("Omar");
-        rp.EnterLn("Wael");
-        rp.EnterDropDownDay("14");
-        rp.EnterDropDownMonth("July");
-        rp.EnterDropDownYear("2001");
-        rp.EnterEmail("byomarwael@gmail.com");
-        rp.EnterCompany("ITI");
-        rp.ClickOnNewsletterButton();
-        rp.EnterPassword("TestingWebsite123!");
-        rp.EnterConfirmPassword("TestingWebsite123!");
-        rp.ClickOnRegisterButton();
-        rp.ClickOnContiuneButton();
+        lp = hp.ClickOnLoginButton();
+        lp.EnterEmail("byomarwael@gmail.com");
+        lp.EnterPassword("qazxsw");
+        lp.ClickOnLoginButton();
+        ap = hp.ClickOnMyAccountButton();
+        ap.ClickOnChangePasswordLink();
+        ap.EnterOldPasswordInput("qazxsw");
+        ap.EnterNewPasswordInput("TestingWebsite123!");
+        ap.EnterConfirmPasswordInput("TestingWebsite123!");
+        ap.ClickOnChangePasswordButton();
+        ap.ClickOnCloseButtonAfterChange();
+        assertEquals(ap.GetPasswordChangedSuccessfully(),"Password was changed", "New Password Error");
     }
-    @Test(priority = 2, dependsOnMethods = "Registration", alwaysRun = true)
-    public void Login(){
+
+    @Test(priority = 2)
+    public void InValidChangePassword_OldPasswordDoNotMatch(){
         hp = new HomePage(driver);
         lp = hp.ClickOnLoginButton();
         lp.EnterEmail("byomarwael@gmail.com");
         lp.EnterPassword("TestingWebsite123!");
         lp.ClickOnLoginButton();
-    }
-    @Test(priority = 3, dependsOnMethods = "Login", alwaysRun = true)
-    public void ChangePassword(){
-        hp = new HomePage(driver);
         ap = hp.ClickOnMyAccountButton();
         ap.ClickOnChangePasswordLink();
-        ap.EnterOldPasswordInput("TestingWebsite123!");
-        ap.EnterNewPasswordInput("abc123!");
-        ap.EnterConfirmPasswordInput("abc123!");
+        ap.EnterOldPasswordInput("TestingWebsite123");
+        ap.EnterNewPasswordInput("asdfgh");
+        ap.EnterConfirmPasswordInput("asdfgh");
         ap.ClickOnChangePasswordButton();
-        ap.ClickOnCloseButtonAfterChange();
-    }
-    @Test(priority = 4, dependsOnMethods = "ChangePassword", alwaysRun = true)
-    public void Logout(){
-        lp.ClickOnLogoutButton();
-    }
-
-    @Test(priority = 5, dependsOnMethods = "Logout")
-    public void TestNewPassword(){
-        hp = new HomePage(driver);
-        lp = hp.ClickOnLoginButton();
-        lp.EnterEmail("byomarwael@gmail.com");
-        lp.EnterPassword("abc123!");
-        lp.ClickOnLoginButton();
+        assertEquals(ap.GetOldPasswordDoNotMatch(),"Old password doesn't match", "Old Password Error");
     }
 }
